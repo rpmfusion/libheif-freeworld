@@ -1,0 +1,22 @@
+From 910588338cf2a17207c09b315baddf003e86316c Mon Sep 17 00:00:00 2001
+From: Dirk Farin <dirk.farin@gmail.com>
+Date: Sat, 18 Feb 2023 12:45:19 +0100
+Subject: [PATCH] calm compiler warning (#787)
+
+---
+ libheif/heif_colorconversion.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libheif/heif_colorconversion.cc b/libheif/heif_colorconversion.cc
+index 8245cb1ff..65f975612 100644
+--- a/libheif/heif_colorconversion.cc
++++ b/libheif/heif_colorconversion.cc
+@@ -1870,7 +1870,7 @@ Op_mono_to_RGB24_32::convert_colorspace(const std::shared_ptr<const HeifPixelIma
+     return nullptr;
+   }
+ 
+-  const uint8_t* in_y, * in_a;
++  const uint8_t* in_y, * in_a = nullptr;
+   int in_y_stride = 0, in_a_stride;
+ 
+   uint8_t* out_p;

@@ -1,6 +1,6 @@
 Name:           libheif-freeworld
 Version:        1.15.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
@@ -15,6 +15,7 @@ BuildRequires:  ninja-build
 BuildRequires:  pkgconfig(libde265)
 BuildRequires:  pkgconfig(x265)
 Requires:       libheif%{_isa} = %{version}
+Supplements:    libheif%{_isa}
 Provides:       libheif-hevc = %{version}
 Provides:       libheif-hevc%{_isa} = %{version}
 
@@ -60,6 +61,9 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Tue Apr 11 2023 Sérgio Basto <sergio@serjux.com> - 1.15.1-4
+- add supplements:libheif
+
 * Sat Apr 08 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.15.3-1
 - rename main package to libheif-freeworld to avoid conflict in koji
 

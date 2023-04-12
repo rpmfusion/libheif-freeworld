@@ -14,6 +14,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 BuildRequires:  pkgconfig(libde265)
 BuildRequires:  pkgconfig(x265)
+Requires:       libheif%{_isa} = %{version}
 Supplements:    libheif%{_isa}
 Provides:       libheif-hevc = %{version}
 Provides:       libheif-hevc%{_isa} = %{version}
@@ -62,7 +63,6 @@ popd
 %changelog
 * Tue Apr 11 2023 Sérgio Basto <sergio@serjux.com> - 1.15.1-4
 - add supplements:libheif
-- drop explicit dependency on main package (Dominik Mierzejewski)
 
 * Sat Apr 08 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.15.3-1
 - rename main package to libheif-freeworld to avoid conflict in koji

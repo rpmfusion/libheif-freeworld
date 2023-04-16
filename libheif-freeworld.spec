@@ -16,8 +16,8 @@ BuildRequires:  pkgconfig(libde265)
 BuildRequires:  pkgconfig(x265)
 Requires:       libheif%{_isa} = %{version}
 Supplements:    libheif%{_isa}
-Provides:       libheif-hevc = %{version}
-Provides:       libheif-hevc%{_isa} = %{version}
+Obsoletes:      libheif-hevc < %{version}-%{release}
+Provides:       libheif-hevc = %{version}-%{release}
 
 %description
 libheif is an ISO/IEC 23008-12:2017 HEIF and AVIF (AV1 Image File Format)

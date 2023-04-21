@@ -1,13 +1,11 @@
 Name:           libheif-freeworld
-Version:        1.15.1
-Release:        5%{?dist}
+Version:        1.15.2
+Release:        1%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
-# gcc-13 fix
-Patch0:         %{url}/commit/910588338cf2a17207c09b315baddf003e86316c.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -61,6 +59,10 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Fri Apr 21 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.15.2-1
+- update to 1.15.2
+- drop obsolete patch
+
 * Sun Apr 16 2023 Sérgio Basto <sergio@serjux.com> - 1.15.1-5
 - Obsolete libheif-hevc to prevent conflict
 

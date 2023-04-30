@@ -6,6 +6,7 @@ Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
+Patch0:         https://patch-diff.githubusercontent.com/raw/strukturag/libheif/pull/815.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -59,6 +60,9 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Sun Apr 30 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.15.2-2
+- backport fix for issue#590
+
 * Fri Apr 21 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.15.2-1
 - update to 1.15.2
 - drop obsolete patch

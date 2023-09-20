@@ -1,6 +1,8 @@
+%bcond_with check
+
 Name:           libheif-freeworld
 Version:        1.16.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
@@ -12,6 +14,9 @@ BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 BuildRequires:  pkgconfig(libde265)
 BuildRequires:  pkgconfig(x265)
+%if %{with check}
+BuildRequires:  pkgconfig(aom)
+%endif
 Requires:       libheif%{_isa} = %{version}
 Supplements:    libheif%{_isa}
 Provides:       libheif-hevc = %{version}-%{release}
@@ -32,7 +37,14 @@ rm -rf third-party/
 %cmake \
  -GNinja \
  -DPLUGIN_DIRECTORY=%{_libdir}/libheif \
+ -DWITH_UNCOMPRESSED_CODEC=ON \
+%if %{with check}
+ -DBUILD_TESTING=ON \
+ -DWITH_REDUCED_VISIBILITY=OFF \
+ -DWITH_LIBDE265=ON -DWITH_X265=ON \
+%else
  -DWITH_LIBDE265_PLUGIN:BOOL=ON -DWITH_X265_PLUGIN:BOOL=ON \
+%endif
  -DWITH_EXAMPLES:BOOL=OFF \
  -Wno-dev
 
@@ -48,9 +60,10 @@ rm  -v .%{_libdir}/pkgconfig/libheif.pc
 rm -rv .%{_datadir}/thumbnailers
 popd
 
+%if %{with check}
 %check
-# Tests are not yet ported to CMake
-#ctest
+%ctest
+%endif
 
 %files
 %license COPYING
@@ -59,6 +72,10 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Fri Sep 08 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.16.2-2
+- Enable uncompressed codec (rhbz#2237849)
+- Run tests conditionally (requires making all symbols visible)
+
 * Mon Sep 04 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.16.2-1
 - update to 1.16.2
 

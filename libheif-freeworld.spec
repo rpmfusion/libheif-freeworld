@@ -1,17 +1,26 @@
 %bcond_with check
 
 Name:           libheif-freeworld
-Version:        1.16.2
-Release:        2%{?dist}
+Version:        1.17.5
+Release:        1%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
+# fix for CVE-2023-49460 (https://github.com/strukturag/libheif/issues/1046)
+Patch10:        https://github.com/strukturag/libheif/commit/fd5b02aca3e29088bf0a1fc400bd661be4a6ed76.patch
+# fix for CVE-2023-49462 (https://github.com/strukturag/libheif/issues/1043)
+Patch11:        https://github.com/strukturag/libheif/commit/730a9d80bea3434f75c79e721878cc67f3889969.patch
+# fix for CVE-2023-49463 (https://github.com/strukturag/libheif/issues/1042)
+Patch12:        https://github.com/strukturag/libheif/commit/26ec3953d46bb5756b97955661565bcbc6647abf.patch
+# fix for CVE-2023-49464 (https://github.com/strukturag/libheif/issues/1044)
+Patch13:        https://github.com/strukturag/libheif/commit/56ef61d8daa55b56d782e5d8ab6f0ed31b98b494.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
+BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libde265)
 BuildRequires:  pkgconfig(x265)
 %if %{with check}
@@ -41,8 +50,11 @@ rm -rf third-party/
 %if %{with check}
  -DBUILD_TESTING=ON \
  -DWITH_REDUCED_VISIBILITY=OFF \
+ -DWITH_FFMPEG_DECODER=ON \
  -DWITH_LIBDE265=ON -DWITH_X265=ON \
 %else
+ -DWITH_FFMPEG_DECODER=ON \
+ -DWITH_FFMPEG_DECODER_PLUGIN=ON \
  -DWITH_LIBDE265_PLUGIN:BOOL=ON -DWITH_X265_PLUGIN:BOOL=ON \
 %endif
  -DWITH_EXAMPLES:BOOL=OFF \
@@ -57,7 +69,6 @@ rm -rv .%{_includedir}/libheif
 rm -rv .%{_libdir}/cmake/libheif
 rm -rv .%{_libdir}/libheif.so*
 rm  -v .%{_libdir}/pkgconfig/libheif.pc
-rm -rv .%{_datadir}/thumbnailers
 popd
 
 %if %{with check}
@@ -68,10 +79,19 @@ popd
 %files
 %license COPYING
 %doc README.md
+%{_libdir}/libheif/libheif-ffmpegdec.so
 %{_libdir}/libheif/libheif-libde265.so
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Fri Dec 15 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.17.5-2
+- Update to 1.17.5 (rhbz#2244583)
+- Backport fixes for: CVE-2023-49460 (rhbz#2253575, rhbz#2253576)
+                      CVE-2023-49462 (rhbz#2253567, rhbz#2253568)
+                      CVE-2023-49463 (rhbz#2253565, rhbz#2253566)
+                      CVE-2023-49464 (rhbz#2253562, rhbz#2253563)
+- Enable HEVC decoding via libavcodec
+
 * Fri Sep 08 2023 Dominik Mierzejewski <dominik@greysector.net> - 1.16.2-2
 - Enable uncompressed codec (rhbz#2237849)
 - Run tests conditionally (requires making all symbols visible)

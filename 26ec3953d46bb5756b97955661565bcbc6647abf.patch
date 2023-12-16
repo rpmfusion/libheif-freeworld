@@ -1,0 +1,25 @@
+From 26ec3953d46bb5756b97955661565bcbc6647abf Mon Sep 17 00:00:00 2001
+From: Dirk Farin <dirk.farin@gmail.com>
+Date: Thu, 14 Dec 2023 13:38:11 +0100
+Subject: [PATCH] fix #1042 (EXIF offset larger than data)
+
+---
+ examples/encoder_jpeg.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/examples/encoder_jpeg.cc b/examples/encoder_jpeg.cc
+index bbf24396ba..84f1d7ec9b 100644
+--- a/examples/encoder_jpeg.cc
++++ b/examples/encoder_jpeg.cc
+@@ -178,6 +178,11 @@ bool JpegEncoder::Encode(const struct heif_image_handle* handle,
+       uint32_t skip = (exifdata[0]<<24) | (exifdata[1]<<16) | (exifdata[2]<<8) | exifdata[3];
+       skip += 4;
+ 
++      if (skip > exifsize) {
++        fprintf(stderr, "Invalid EXIF data (offset too large)\n");
++        return false;
++      }
++
+       uint8_t* ptr = exifdata + skip;
+       size_t size = exifsize - skip;
+ 

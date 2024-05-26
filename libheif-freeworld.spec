@@ -1,21 +1,23 @@
 %bcond_with check
 
 Name:           libheif-freeworld
-Version:        1.17.5
-Release:        3%{?dist}
+Version:        1.17.6
+Release:        1%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
-# fix for CVE-2023-49460 (https://github.com/strukturag/libheif/issues/1046)
-Patch10:        https://github.com/strukturag/libheif/commit/fd5b02aca3e29088bf0a1fc400bd661be4a6ed76.patch
-# fix for CVE-2023-49462 (https://github.com/strukturag/libheif/issues/1043)
-Patch11:        https://github.com/strukturag/libheif/commit/730a9d80bea3434f75c79e721878cc67f3889969.patch
-# fix for CVE-2023-49463 (https://github.com/strukturag/libheif/issues/1042)
-Patch12:        https://github.com/strukturag/libheif/commit/26ec3953d46bb5756b97955661565bcbc6647abf.patch
-# fix for CVE-2023-49464 (https://github.com/strukturag/libheif/issues/1044)
-Patch13:        https://github.com/strukturag/libheif/commit/56ef61d8daa55b56d782e5d8ab6f0ed31b98b494.patch
+# Fix for CVE-2024-25269 (https://github.com/strukturag/libheif/issues/1073)
+Patch1:         877de6b398198bca387df791b9232922c5721c80.patch
+# Fix compilation with libsvtav1 2.0.0.
+Patch2:         a911b26a902c5f89fee2dc20ac4dfaafcb8144ec.patch
+# Backport memory leaks fix from master
+Patch3:         9598ddeb3dff4e51a9989067e912baf502410cee.patch
+Patch4:         dfd88deb1d80b4195ef16cddad256f33b46fbe29.patch
+Patch5:         90955e3118d687fa8c36747a7b349caebc82707d.patch
+Patch6:         bef5f0f49f9024957189b5b465cd4d07078cd06f.patch
+Patch7:         50aa08176e44178eeffcb7a66f37d7cad074f51b.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -84,6 +86,10 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Sun May 26 2024 Robert-André Mauchin <zebob.m@gmail.com> - 1.17.6-1
+- Update to 1.17.6
+- Fix CVE-2024-25269
+
 * Sat Apr 06 2024 Leigh Scott <leigh123linux@gmail.com> - 1.17.5-3
 - Rebuild for new x265 version
 

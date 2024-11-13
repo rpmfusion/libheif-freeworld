@@ -1,23 +1,11 @@
-%bcond_with check
-
 Name:           libheif-freeworld
-Version:        1.17.6
-Release:        4%{?dist}
+Version:        1.19.3
+Release:        1%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
-# Fix for CVE-2024-25269 (https://github.com/strukturag/libheif/issues/1073)
-Patch1:         877de6b398198bca387df791b9232922c5721c80.patch
-# Fix compilation with libsvtav1 2.0.0.
-Patch2:         a911b26a902c5f89fee2dc20ac4dfaafcb8144ec.patch
-# Backport memory leaks fix from master
-Patch3:         9598ddeb3dff4e51a9989067e912baf502410cee.patch
-Patch4:         dfd88deb1d80b4195ef16cddad256f33b46fbe29.patch
-Patch5:         90955e3118d687fa8c36747a7b349caebc82707d.patch
-Patch6:         bef5f0f49f9024957189b5b465cd4d07078cd06f.patch
-Patch7:         50aa08176e44178eeffcb7a66f37d7cad074f51b.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -25,9 +13,7 @@ BuildRequires:  ninja-build
 BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libde265)
 BuildRequires:  pkgconfig(x265)
-%if %{with check}
 BuildRequires:  pkgconfig(aom)
-%endif
 Requires:       libheif%{_isa} = %{version}
 Supplements:    libheif%{_isa}
 Provides:       libheif-hevc = %{version}-%{release}
@@ -49,16 +35,11 @@ rm -rf third-party/
  -GNinja \
  -DPLUGIN_DIRECTORY=%{_libdir}/libheif \
  -DWITH_UNCOMPRESSED_CODEC=ON \
-%if %{with check}
  -DBUILD_TESTING=ON \
- -DWITH_REDUCED_VISIBILITY=OFF \
- -DWITH_FFMPEG_DECODER=ON \
- -DWITH_LIBDE265=ON -DWITH_X265=ON \
-%else
+ -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF \
  -DWITH_FFMPEG_DECODER=ON \
  -DWITH_FFMPEG_DECODER_PLUGIN=ON \
  -DWITH_LIBDE265_PLUGIN:BOOL=ON -DWITH_X265_PLUGIN:BOOL=ON \
-%endif
  -DWITH_EXAMPLES:BOOL=OFF \
  -Wno-dev
 
@@ -73,10 +54,8 @@ rm -rv .%{_libdir}/libheif.so*
 rm  -v .%{_libdir}/pkgconfig/libheif.pc
 popd
 
-%if %{with check}
 %check
 %ctest
-%endif
 
 %files
 %license COPYING
@@ -86,6 +65,11 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Tue Nov 12 2024 Dominik Mierzejewski <dominik@greysector.net> - 1.19.3-1
+- update to 1.19.3 (resolves rhbz#2295525)
+- drop obsolete patches
+- run tests unconditionally, they no longer require special build options
+
 * Tue Oct 08 2024 Nicolas Chauvet <kwizart@gmail.com> - 1.17.6-4
 - Rebuilt
 

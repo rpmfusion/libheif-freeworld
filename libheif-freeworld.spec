@@ -52,7 +52,6 @@ pushd %{buildroot}
 rm -rv .%{_includedir}/libheif
 rm -rv .%{_libdir}/cmake/libheif
 rm -rv .%{_libdir}/libheif.so*
-rm -rv .%{_libdir}/gdk-pixbuf-2.0/
 rm  -v .%{_libdir}/pkgconfig/libheif.pc
 popd
 

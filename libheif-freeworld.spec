@@ -1,6 +1,6 @@
 Name:           libheif-freeworld
-Version:        1.19.3
-Release:        2%{?dist}
+Version:        1.19.5
+Release:        1%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
@@ -52,6 +52,7 @@ pushd %{buildroot}
 rm -rv .%{_includedir}/libheif
 rm -rv .%{_libdir}/cmake/libheif
 rm -rv .%{_libdir}/libheif.so*
+rm -rv .%{_libdir}/gdk-pixbuf-2.0/
 rm  -v .%{_libdir}/pkgconfig/libheif.pc
 popd
 
@@ -66,6 +67,9 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Sun Nov 24 2024 Sérgio Basto <sergio@serjux.com> - 1.19.5-1
+- Update libheif-freeworld to 1.19.5
+
 * Sat Nov 23 2024 Leigh Scott <leigh123linux@gmail.com> - 1.19.3-2
 - Rebuild for new x265
 

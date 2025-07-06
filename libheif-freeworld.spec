@@ -16,6 +16,7 @@ BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libde265)
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(aom)
+BuildRequires:  pkgconfig(zlib)
 Requires:       libheif%{_isa} = %{version}
 Supplements:    libheif%{_isa}
 Provides:       libheif-hevc = %{version}-%{release}
@@ -71,6 +72,7 @@ popd
 * Sun Jul 06 2025 Dominik Mierzejewski <dominik@greysector.net> - 1.20.1-1
 - update to 1.20.1
 - fix skipped test when HEVC encoder is built as plugin
+- add explicit build dependency on zlib to run more tests
 
 * Tue Apr 29 2025 Dominik Mierzejewski <dominik@greysector.net> - 1.19.8-1
 - update to 1.19.8

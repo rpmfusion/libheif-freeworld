@@ -6,6 +6,8 @@ Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
+# https://github.com/strukturag/libheif/pull/1549
+Patch0:         %{name}-fix-tai-test-with-plugins.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -68,6 +70,7 @@ popd
 %changelog
 * Sun Jul 06 2025 Dominik Mierzejewski <dominik@greysector.net> - 1.20.1-1
 - update to 1.20.1
+- fix skipped test when HEVC encoder is built as plugin
 
 * Tue Apr 29 2025 Dominik Mierzejewski <dominik@greysector.net> - 1.19.8-1
 - update to 1.19.8

@@ -1,6 +1,6 @@
 Name:           libheif-freeworld
 Version:        1.20.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
@@ -69,6 +69,9 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Sun Jul 27 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.20.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
+
 * Sun Jul 06 2025 Dominik Mierzejewski <dominik@greysector.net> - 1.20.1-1
 - update to 1.20.1
 - fix skipped test when HEVC encoder is built as plugin

@@ -1,13 +1,11 @@
 Name:           libheif-freeworld
-Version:        1.20.1
-Release:        2%{?dist}
+Version:        1.20.2
+Release:        1%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
-# https://github.com/strukturag/libheif/pull/1549
-Patch0:         %{name}-fix-tai-test-with-plugins.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -69,6 +67,9 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Wed Sep 10 2025 Dominik Mierzejewski <dominik@greysector.net> - 1.20.2-1
+- update to 1.20.2
+
 * Sun Jul 27 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.20.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
 

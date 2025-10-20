@@ -1,0 +1,36 @@
+From bef5f0f49f9024957189b5b465cd4d07078cd06f Mon Sep 17 00:00:00 2001
+From: Brad Hards <bradh@frogmouth.net>
+Date: Sat, 6 Jan 2024 13:59:21 +1100
+Subject: [PATCH] kvazaar: protect against unexpected chroma values
+
+Resolves #1089
+---
+ libheif/plugins/encoder_kvazaar.cc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/libheif/plugins/encoder_kvazaar.cc b/libheif/plugins/encoder_kvazaar.cc
+index 408f1bf84d..eada77f9fe 100644
+--- a/libheif/plugins/encoder_kvazaar.cc
++++ b/libheif/plugins/encoder_kvazaar.cc
+@@ -35,6 +35,7 @@ extern "C" {
+ 
+ static const char* kError_unspecified_error = "Unspecified encoder error";
+ static const char* kError_unsupported_bit_depth = "Bit depth not supported by kvazaar";
++static const char* kError_unsupported_chroma = "Unsupported chroma type";
+ //static const char* kError_unsupported_image_size = "Images smaller than 16 pixels are not supported";
+ 
+ 
+@@ -492,6 +493,13 @@ static struct heif_error kvazaar_encode_image(void* encoder_raw, const struct he
+     input_chroma_width = input_width;
+     input_chroma_height = input_height;
+   }
++  else {
++    return heif_error{
++      heif_error_Encoder_plugin_error,
++      heif_suberror_Unsupported_image_type,
++      kError_unsupported_chroma
++    };
++  }
+ 
+   if (chroma != heif_chroma_monochrome) {
+     int w = heif_image_get_width(image, heif_channel_Y);

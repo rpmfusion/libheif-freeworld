@@ -1,0 +1,21 @@
+From 90955e3118d687fa8c36747a7b349caebc82707d Mon Sep 17 00:00:00 2001
+From: zhailiangliang <zhailiangliang@loongson.cn>
+Date: Thu, 11 Jan 2024 17:48:52 +0800
+Subject: [PATCH] Fix potential memory leak in file heif_convert.cc
+
+---
+ examples/heif_convert.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/examples/heif_convert.cc b/examples/heif_convert.cc
+index 0e3cb4d2de..e57573235c 100644
+--- a/examples/heif_convert.cc
++++ b/examples/heif_convert.cc
+@@ -609,6 +609,7 @@ int main(int argc, char** argv)
+             const char* auxTypeC = nullptr;
+             err = heif_image_handle_get_auxiliary_type(aux_handle, &auxTypeC);
+             if (err.code) {
++              heif_image_release(aux_image);
+               heif_image_handle_release(aux_handle);
+               heif_image_handle_release(handle);
+               std::cerr << "Could not get type of auxiliary image: " << err.message << "\n";

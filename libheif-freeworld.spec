@@ -1,6 +1,6 @@
 Name:           libheif-freeworld
-Version:        1.21.2
-Release:        5%{?dist}
+Version:        1.23.1
+Release:        1%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
@@ -11,8 +11,8 @@ BuildRequires:  cmake
 BuildRequires:  cmake(vvenc)
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
-BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libde265)
+BuildRequires:  pkgconfig(x264)
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(aom)
 BuildRequires:  pkgconfig(zlib)
@@ -39,12 +39,11 @@ rm -rf third-party/
  -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF \
  -DPLUGIN_DIRECTORY=%{_libdir}/libheif \
  -DWITH_EXAMPLES:BOOL=OFF \
- -DWITH_FFMPEG_DECODER=ON \
- -DWITH_FFMPEG_DECODER_PLUGIN=ON \
  -DWITH_LIBDE265_PLUGIN:BOOL=ON \
  -DWITH_UNCOMPRESSED_CODEC=ON \
  -DWITH_VVENC:BOOL=ON \
  -DWITH_VVENC_PLUGIN:BOOL=ON \
+ -DWITH_X264_PLUGIN:BOOL=ON \
  -DWITH_X265_PLUGIN:BOOL=ON \
  -Wno-dev
 
@@ -65,12 +64,17 @@ popd
 %files
 %license COPYING
 %doc README.md
-%{_libdir}/libheif/libheif-ffmpegdec.so
 %{_libdir}/libheif/libheif-libde265.so
 %{_libdir}/libheif/libheif-vvenc.so
+%{_libdir}/libheif/libheif-x264.so
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Sun Aug 09 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.1-1
+- update to 1.23.1
+- stop building FFmpeg plugin (moved to Fedora)
+- enable x264 plugin
+
 * Fri Jul 31 2026 Leigh Scott <leigh123linux@gmail.com> - 1.21.2-5
 - Rebuild for new x265
 

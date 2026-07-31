@@ -1,6 +1,6 @@
 Name:           libheif-freeworld
 Version:        1.21.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
@@ -71,6 +71,9 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Fri Jul 31 2026 Leigh Scott <leigh123linux@gmail.com> - 1.21.2-5
+- Rebuild for new x265
+
 * Mon Apr 20 2026 Leigh Scott <leigh123linux@gmail.com> - 1.21.2-4
 - Rebuild for new x265
 

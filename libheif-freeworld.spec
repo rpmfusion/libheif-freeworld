@@ -1,6 +1,6 @@
 Name:           libheif-freeworld
 Version:        1.23.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
@@ -74,6 +74,9 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Sat Aug 22 2026 Leigh Scott <leigh123linux@gmail.com> - 1.23.1-2
+- Rebuild for new ffmpeg
+
 * Sun Aug 09 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.1-1
 - update to 1.23.1
 - stop building FFmpeg plugin (moved to Fedora)

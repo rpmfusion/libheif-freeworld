@@ -1,11 +1,12 @@
 Name:           libheif-freeworld
-Version:        1.23.3
+Version:        1.23.4
 Release:        1%{?dist}
-Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
+Summary:        H.264, HEVC and VVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
+Patch0:         %{url}/pull/1907.patch#/libheif-fix-hevc-test.patch
 
 BuildRequires:  cmake
 BuildRequires:  cmake(vvdec)
@@ -26,8 +27,8 @@ Obsoletes:      libheif-hevc < %{version}-%{release}
 libheif is an ISO/IEC 23008-12:2017 HEIF and AVIF (AV1 Image File Format)
 file format decoder and encoder.
 
-This package adds support for HEVC-encoded HEIC files to applications
-that use libheif to read HEIF image files.
+This package adds support for H.264, HEVC and VVC-encoded HEIC files to
+applications that use libheif to read HEIF image files.
 
 %prep
 %autosetup -p1 -n libheif-%{version}
@@ -74,6 +75,11 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Tue Sep 15 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.4-1
+- update to 1.23.4
+- mention all codecs in summary and description
+- fix sequence_mixed_bit_depth test
+
 * Fri Sep 04 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.3-1
 - update to 1.23.3 (resolves rfbz#7540)
 

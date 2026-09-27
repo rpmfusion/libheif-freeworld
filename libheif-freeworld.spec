@@ -1,17 +1,19 @@
 Name:           libheif-freeworld
-Version:        1.20.2
+Version:        1.23.5
 Release:        1%{?dist}
-Summary:        HEVC support for HEIF and AVIF file format decoder and encoder
+Summary:        H.264, HEVC and VVC support for HEIF and AVIF file format decoder and encoder
 
 License:        LGPL-3.0-or-later and MIT
 URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
 
 BuildRequires:  cmake
+BuildRequires:  cmake(vvdec)
+BuildRequires:  cmake(vvenc)
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
-BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libde265)
+BuildRequires:  pkgconfig(x264)
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(aom)
 BuildRequires:  pkgconfig(zlib)
@@ -24,8 +26,8 @@ Obsoletes:      libheif-hevc < %{version}-%{release}
 libheif is an ISO/IEC 23008-12:2017 HEIF and AVIF (AV1 Image File Format)
 file format decoder and encoder.
 
-This package adds support for HEVC-encoded HEIC files to applications
-that use libheif to read HEIF image files.
+This package adds support for H.264, HEVC and VVC-encoded HEIC files to
+applications that use libheif to read HEIF image files.
 
 %prep
 %autosetup -p1 -n libheif-%{version}
@@ -38,10 +40,13 @@ rm -rf third-party/
  -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF \
  -DPLUGIN_DIRECTORY=%{_libdir}/libheif \
  -DWITH_EXAMPLES:BOOL=OFF \
- -DWITH_FFMPEG_DECODER=ON \
- -DWITH_FFMPEG_DECODER_PLUGIN=ON \
  -DWITH_LIBDE265_PLUGIN:BOOL=ON \
  -DWITH_UNCOMPRESSED_CODEC=ON \
+ -DWITH_VVDEC:BOOL=ON \
+ -DWITH_VVDEC_PLUGIN:BOOL=ON \
+ -DWITH_VVENC:BOOL=ON \
+ -DWITH_VVENC_PLUGIN:BOOL=ON \
+ -DWITH_X264_PLUGIN:BOOL=ON \
  -DWITH_X265_PLUGIN:BOOL=ON \
  -Wno-dev
 
@@ -62,11 +67,60 @@ popd
 %files
 %license COPYING
 %doc README.md
-%{_libdir}/libheif/libheif-ffmpegdec.so
 %{_libdir}/libheif/libheif-libde265.so
+%{_libdir}/libheif/libheif-vvdec.so
+%{_libdir}/libheif/libheif-vvenc.so
+%{_libdir}/libheif/libheif-x264.so
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Wed Sep 23 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.5-1
+- update to 1.23.5
+- drop merged patch
+
+* Tue Sep 15 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.4-1
+- update to 1.23.4
+- mention all codecs in summary and description
+- fix sequence_mixed_bit_depth test
+
+* Fri Sep 04 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.3-1
+- update to 1.23.3 (resolves rfbz#7540)
+
+* Sat Aug 22 2026 Leigh Scott <leigh123linux@gmail.com> - 1.23.1-2
+- Rebuild for new ffmpeg
+
+* Sun Aug 09 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.1-1
+- update to 1.23.1
+- stop building FFmpeg plugin (moved to Fedora)
+- enable x264 plugin
+
+* Fri Jul 31 2026 Leigh Scott <leigh123linux@gmail.com> - 1.21.2-5
+- Rebuild for new x265
+
+* Mon Apr 20 2026 Leigh Scott <leigh123linux@gmail.com> - 1.21.2-4
+- Rebuild for new x265
+
+* Thu Mar 19 2026 Leigh Scott <leigh123linux@gmail.com> - 1.21.2-3
+- Rebuild for new libde265
+
+* Wed Mar 18 2026 Leigh Scott <leigh123linux@gmail.com> - 1.21.2-2
+- Rebuild for new libde265
+
+* Fri Jan 16 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.21.2-1
+- update to 1.21.2
+
+* Fri Jan 09 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.21.1-2
+- enable vvenc support
+
+* Tue Jan 06 2026 Sérgio Basto <sergio@serjux.com> - 1.21.1-1
+- Update libheif-freeworld to 1.21.1
+
+* Wed Nov 05 2025 Leigh Scott <leigh123linux@gmail.com> - 1.20.2-3
+- Rebuild for ffmpeg-8.0
+
+* Tue Oct 07 2025 Leigh Scott <leigh123linux@gmail.com> - 1.20.2-2
+- Rebuild for svt-av1 soname bump
+
 * Wed Sep 10 2025 Dominik Mierzejewski <dominik@greysector.net> - 1.20.2-1
 - update to 1.20.2
 

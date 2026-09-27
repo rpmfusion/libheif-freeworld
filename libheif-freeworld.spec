@@ -8,8 +8,10 @@ URL:            https://github.com/strukturag/libheif
 Source0:        %{url}/archive/v%{version}/libheif-%{version}.tar.gz
 
 BuildRequires:  cmake
+%if ! (0%{?rhel} && 0%{?rhel} <= 9)
 BuildRequires:  cmake(vvdec)
 BuildRequires:  cmake(vvenc)
+%endif
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 BuildRequires:  pkgconfig(libde265)
@@ -42,10 +44,12 @@ rm -rf third-party/
  -DWITH_EXAMPLES:BOOL=OFF \
  -DWITH_LIBDE265_PLUGIN:BOOL=ON \
  -DWITH_UNCOMPRESSED_CODEC=ON \
+%if ! (0%{?rhel} && 0%{?rhel} <= 9)
  -DWITH_VVDEC:BOOL=ON \
  -DWITH_VVDEC_PLUGIN:BOOL=ON \
  -DWITH_VVENC:BOOL=ON \
  -DWITH_VVENC_PLUGIN:BOOL=ON \
+%endif
  -DWITH_X264_PLUGIN:BOOL=ON \
  -DWITH_X265_PLUGIN:BOOL=ON \
  -Wno-dev
@@ -68,8 +72,10 @@ popd
 %license COPYING
 %doc README.md
 %{_libdir}/libheif/libheif-libde265.so
+%if ! (0%{?rhel} && 0%{?rhel} <= 9)
 %{_libdir}/libheif/libheif-vvdec.so
 %{_libdir}/libheif/libheif-vvenc.so
+%endif
 %{_libdir}/libheif/libheif-x264.so
 %{_libdir}/libheif/libheif-x265.so
 

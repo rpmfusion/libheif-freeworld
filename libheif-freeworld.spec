@@ -1,5 +1,5 @@
 Name:           libheif-freeworld
-Version:        1.23.6
+Version:        1.23.7
 Release:        1%{?dist}
 Summary:        H.264, HEVC and VVC support for HEIF and AVIF file format decoder and encoder
 
@@ -74,6 +74,9 @@ popd
 %{_libdir}/libheif/libheif-x265.so
 
 %changelog
+* Fri Oct 30 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.7-1
+- update to 1.23.7
+
 * Sun Oct 11 2026 Dominik Mierzejewski <dominik@greysector.net> - 1.23.6-1
 - update to 1.23.6
 
